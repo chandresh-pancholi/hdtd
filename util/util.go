@@ -24,3 +24,4 @@ func Compress(name string, data []byte) {
 		log.Fatal(err)
 	}
 }
+
