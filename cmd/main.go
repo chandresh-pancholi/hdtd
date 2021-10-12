@@ -8,6 +8,7 @@ import (
 	"github.com/chandresh-pancholi/hdtd/communication"
 	"github.com/chandresh-pancholi/hdtd/dump"
 	"github.com/chandresh-pancholi/hdtd/sink"
+	"github.com/chandresh-pancholi/hdtd/util"
 	"github.com/joho/godotenv"
 )
 
@@ -41,8 +42,9 @@ func main() {
 	d := dump.NewHeapDump(*s3, *slack)
 	td := dump.NewThreadDump(*s3, *slack)
 
-	hdDestination := d.Dump()
-	tdDestination := td.Dump()
+	processId := os.Args[1]
+	hdDestination := d.Dump(processId)
+	tdDestination := td.Dump(processId)
 
 	slackMessage := fmt.Sprintf("Pod name: %s\n Heap dump: %s\n Thread dump: %s", os.Getenv("POD_NAME"), hdDestination, tdDestination)
 
@@ -51,4 +53,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("publishing message to slack failed. Error: %v", err)
 	}
+
+	util.KillProcess(processId)
 }
