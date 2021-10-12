@@ -37,10 +37,10 @@ func (hd *HeapDump) Dump(processId string) string {
 	}
 
 	log.Printf("uploading file to S3. filename: %s", fileName)
-	// _, err = hd.aws.Upload(fileName, destination)
-	// if err != nil {
-	// 	log.Fatalf("heap dump s3 upload failed. Error: %v", err)
-	// }
+	_, err = hd.aws.Upload(fileName, destination)
+	if err != nil {
+		log.Fatalf("heap dump s3 upload failed. Error: %v", err)
+	}
 
 	return destination
 }

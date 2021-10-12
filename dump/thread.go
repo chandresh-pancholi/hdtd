@@ -45,9 +45,9 @@ func (td *ThreadDump) Dump(processId string) string {
 	}
 
 	_, err = td.aws.Upload(fileName, destination)
-	// if err != nil {
-	// 	log.Fatalf("heap dump s3 upload failed. Error: %v", err)
-	// }
+	if err != nil {
+		log.Fatalf("heap dump s3 upload failed. Error: %v", err)
+	}
 
 	return ""
 
